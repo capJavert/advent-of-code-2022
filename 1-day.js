@@ -18,7 +18,12 @@ const main = async () => {
         [0]
     )
 
-    console.log(Math.max(...elfs))
+    console.log(
+        elfs
+            .sort((a, b) => b - a)
+            .slice(0, 3)
+            .reduce((acc, item) => acc + item, 0)
+    )
 }
 
 main()
