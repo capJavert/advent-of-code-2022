@@ -15,16 +15,42 @@ const main = async () => {
         return item.charCodeAt(0) - 'a'.charCodeAt(0) + 1
     }
 
-    const commonPriorities = input.reduce((acc, item) => {
-        const [comp1, comp2] = [item.substring(0, item.length / 2), item.substring(item.length / 2)]
+    const groups = input.reduce(
+        (acc, item) => {
+            const current = acc[acc.length - 1]
+            current.push(item)
 
-        const commonItem = item.split('').find(item => comp1.includes(item) && comp2.includes(item))
-        const priority = getPriority(commonItem)
+            if (current.length === 3) {
+                acc.push([])
+            }
 
-        acc.push(priority)
+            return acc
+        },
+        [[]]
+    )
+    groups.pop()
 
-        return acc
-    }, [])
+    const commonPriorities = groups.map(group => {
+        const itemAppearances = group.reduce((acc, backpack, index) => {
+            const items = backpack.split('')
+
+            items.forEach(item => {
+                if (!acc[item]) {
+                    acc[item] = new Set()
+                }
+
+                acc[item].add(index)
+            })
+
+            return acc
+        }, {})
+
+        const badge = Object.keys(itemAppearances).find(item => {
+            return itemAppearances[item].size === 3
+        })
+
+        return getPriority(badge)
+    })
 
     console.log(commonPriorities.reduce((acc, item) => acc + item, 0))
 }
