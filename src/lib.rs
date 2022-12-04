@@ -117,3 +117,23 @@ pub fn solve_day_3(input: JsValue) -> usize {
 
     sum
 }
+
+#[wasm_bindgen]
+pub fn solve_day_4(input: JsValue) -> usize {
+    let elf_pairs: Vec<Vec<Vec<usize>>> = serde_wasm_bindgen::from_value(input).unwrap();
+
+    let inefficient_pair_count = elf_pairs.into_iter().fold(0, |acc, pair| {
+        let range1 = &pair[0];
+        let range2 = &pair[1];
+
+        if range1.first() <= range2.first() && range1.last() >= range2.last() {
+            acc + 1
+        } else if range2.first() <= range1.first() && range2.last() >= range1.last() {
+            acc + 1
+        } else {
+            acc
+        }
+    });
+
+    inefficient_pair_count
+}
