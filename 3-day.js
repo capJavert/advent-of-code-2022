@@ -1,5 +1,5 @@
 const fetch = require('node-fetch')
-const {} = require('./pkg')
+const { solve_day_3 } = require('./pkg')
 
 const main = async () => {
     const data = await fetch('https://pastebin.com/raw/CyHyBwHA').then(response => response.text())
@@ -16,9 +16,9 @@ const main = async () => {
     }
 
     const groups = input.reduce(
-        (acc, item) => {
+        (acc, line) => {
             const current = acc[acc.length - 1]
-            current.push(item)
+            current.push(line.split('').map(item => getPriority(item)))
 
             if (current.length === 3) {
                 acc.push([])
@@ -30,29 +30,7 @@ const main = async () => {
     )
     groups.pop()
 
-    const commonPriorities = groups.map(group => {
-        const itemAppearances = group.reduce((acc, backpack, index) => {
-            const items = backpack.split('')
-
-            items.forEach(item => {
-                if (!acc[item]) {
-                    acc[item] = new Set()
-                }
-
-                acc[item].add(index)
-            })
-
-            return acc
-        }, {})
-
-        const badge = Object.keys(itemAppearances).find(item => {
-            return itemAppearances[item].size === 3
-        })
-
-        return getPriority(badge)
-    })
-
-    console.log(commonPriorities.reduce((acc, item) => acc + item, 0))
+    console.log(solve_day_3(groups))
 }
 
 main()
