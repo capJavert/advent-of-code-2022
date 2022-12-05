@@ -26,6 +26,8 @@ pub fn solve_day_5(stacks_input: JsValue, steps_input: JsValue) -> JsValue {
             }
         }
 
+        crates_for_move.reverse();
+
         let to_stack = stacks.get_mut(step.to - 1).unwrap();
 
         for item in crates_for_move {
