@@ -13,11 +13,20 @@ pub fn solve_day_6(input: JsValue) -> usize {
         characters.push(character);
 
         if characters.len() % 14 == 0 {
-            let mut characters_dedup = characters.clone();
-            characters_dedup.sort();
-            characters_dedup.dedup();
+            let mut characters_dedup = vec![];
+            let mut is_match = true;
 
-            if characters.len() == characters_dedup.len() {
+            for item in characters.iter() {
+                if characters_dedup.contains(&item) {
+                    is_match = false;
+
+                    break;
+                }
+
+                characters_dedup.push(item)
+            }
+
+            if is_match {
                 break;
             } else {
                 characters.remove(0);
