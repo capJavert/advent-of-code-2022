@@ -12,7 +12,7 @@ pub fn solve_day_6(input: JsValue) -> usize {
 
         characters.push(character);
 
-        if characters.len() % 4 == 0 {
+        if characters.len() % 14 == 0 {
             let mut characters_dedup = characters.clone();
             characters_dedup.sort();
             characters_dedup.dedup();
