@@ -106,14 +106,16 @@ const main = async () => {
         }
     })
 
-    console.log(
-        Object.values(dirSizes).reduce((acc, size) => {
-            if (size <= 100000) {
-                return acc + size
-            }
+    const totalUsedSize = dirSizes['/']
+    const unusedSize = 70000000 - totalUsedSize
+    const spaceNeededForUpdate = 30000000 - unusedSize
 
-            return acc
-        }, 0)
+    console.log(
+        Math.min(
+            ...Object.values(dirSizes).filter(size => {
+                return size >= spaceNeededForUpdate
+            })
+        )
     )
 }
 
