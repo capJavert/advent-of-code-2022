@@ -4,18 +4,18 @@ use wasm_bindgen::prelude::*;
 pub fn solve_day_8(input: JsValue) -> usize {
     let grid: Vec<Vec<usize>> = serde_wasm_bindgen::from_value(input).unwrap();
 
-    let mut visible_trees = 0;
+    let mut best_score = 0;
 
     let directions = vec!["top", "right", "down", "left"];
 
     for (y, row) in grid.iter().enumerate() {
         for (x, tree) in row.iter().enumerate() {
-            let mut visible = 4;
+            let mut score = 1;
 
             for direction in directions.to_vec().into_iter() {
                 let mut cy = x;
                 let mut cx = y;
-                let mut visible_in_direction = true;
+                let mut direction_score = 0;
 
                 loop {
                     if cy == 0 || cy == (grid.len() - 1) || cx == 0 || cx == (row.len() - 1) {
@@ -38,25 +38,23 @@ pub fn solve_day_8(input: JsValue) -> usize {
                         _ => (),
                     }
 
+                    direction_score += 1;
+
                     let check_tree = grid[cx][cy];
 
                     if check_tree >= *tree {
-                        visible_in_direction = false;
-
                         break;
                     }
                 }
 
-                if !visible_in_direction {
-                    visible -= 1;
-                }
+                score *= direction_score;
             }
 
-            if visible > 0 {
-                visible_trees += 1;
+            if score > best_score {
+                best_score = score;
             }
         }
     }
 
-    visible_trees
+    best_score
 }
