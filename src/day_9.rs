@@ -25,15 +25,19 @@ pub fn solve_day_9(input: JsValue) -> usize {
             .round() as isize
     };
 
-    let mut head = Point { x: 0, y: 0 };
-    let mut tail = Point { x: 0, y: 0 };
+    let mut rope: Vec<Point> = vec![];
+    let rope_len = 10;
+
+    for _ in 0..rope_len {
+        rope.push(Point { x: 0, y: 0 });
+    }
 
     let mut tail_positions = HashSet::new();
     tail_positions.insert((0, 0));
 
     for motion in motions {
         for _ in 0..motion.amount {
-            let last_head = head.clone();
+            let mut head = rope.get_mut(0).unwrap();
 
             match motion.direction.as_str() {
                 "up" => {
@@ -51,12 +55,29 @@ pub fn solve_day_9(input: JsValue) -> usize {
                 _ => (),
             }
 
-            let distance = get_distance(head, tail);
+            for index in 1..rope_len {
+                let knot_head = rope[index - 1];
+                let knot = rope.get_mut(index).unwrap();
 
-            if distance > 1 {
-                tail = last_head.clone();
+                let distance = get_distance(knot_head, *knot);
 
-                tail_positions.insert((tail.x, tail.y));
+                if distance > 1 {
+                    if knot_head.x > knot.x {
+                        knot.x += 1;
+                    } else if knot_head.x < knot.x {
+                        knot.x -= 1;
+                    }
+
+                    if knot_head.y > knot.y {
+                        knot.y += 1;
+                    } else if knot_head.y < knot.y {
+                        knot.y -= 1;
+                    }
+
+                    if index == rope_len - 1 {
+                        tail_positions.insert((knot.x, knot.y));
+                    }
+                }
             }
         }
     }
