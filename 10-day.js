@@ -18,9 +18,7 @@ const main = async () => {
         }
     })
 
-    const registerValues = solve_day_10(instructions)
-
-    console.log(registerValues.reduce((acc, item) => acc + item, 0))
+    solve_day_10(instructions)
 }
 
 main()
