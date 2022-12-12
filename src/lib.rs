@@ -18,3 +18,27 @@ pub mod utils;
 pub fn merry_xmas(year: Option<i32>) {
     console_log!("Merry Xmas {}!", year.unwrap_or(2022))
 }
+
+#[wasm_bindgen]
+pub fn test(numbers: Vec<usize>) -> usize {
+    let mut result = 1;
+
+    for i in numbers {
+        result += i;
+    }
+
+    result
+}
+
+#[wasm_bindgen]
+pub fn test_serde(input: &str) -> usize {
+    let numbers: Vec<usize> = serde_json::from_str(input).unwrap();
+
+    let mut result = 1;
+
+    for i in numbers {
+        result += i;
+    }
+
+    result
+}
