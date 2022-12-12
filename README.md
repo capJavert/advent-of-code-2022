@@ -11,3 +11,4 @@
 ### Update #4: Today was hard for some reason. I think the main issue was that my initial "part 1" logic could not be applied to "part 2" because I implemented specific constraints that were not true for "part 2". Finally I solved it with minimal changes after re-reviewing constraints in the puzzle text. Lesson here is to avoid introducing any kind of artifical constraints, and if I need to introduce them then I need to re-review them when starting "part 2".
 ### Update #5: Today (day 10) lesson is: "don't overthink it" - solve the task, worry about other use cases on later days.
 ### Update #6: Day 11 Part 2 was requiring #math hacks.. [smarter people](https://www.reddit.com/r/adventofcode/comments/zifqmh/2022_day_11_solutions/) explain it better than me.
+### Update #7: Half way there.. today I learned that calling wasm function multiple times can impact perfromance pretty bad. This is due to actual time being lost on JavaScript <-> Rust conversion. 
