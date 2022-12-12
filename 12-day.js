@@ -5,14 +5,11 @@ const main = async () => {
     const data = await fetch('https://pastebin.com/raw/AFWkFr99').then(response => response.text())
     const input = data.split(/\r?\n/)
 
-    let start
     let end
 
     const grid = input.map((line, y) => {
         return line.split('').map((item, x) => {
             if (item === 'S') {
-                start = [x, y]
-
                 return 'a'.charCodeAt()
             }
 
@@ -52,9 +49,26 @@ const main = async () => {
         return acc
     }, {})
 
-    const shortestPath = solve_day_12([map, start.join('-'), end.join('-')])
+    const starts = Object.keys(map).filter(item => {
+        const coord = item.split('-').map(part => +part)
+        const elevation = grid[coord[1]][coord[0]]
 
-    console.log(shortestPath.length - 1)
+        return elevation === 'a'.charCodeAt()
+    })
+
+    const paths = starts.reduce((acc, item) => {
+        try {
+            const path = solve_day_12([map, item, end.join('-')])
+
+            acc.push(path)
+        } catch (error) {
+            // path can not be found from all 'a' positions
+        }
+
+        return acc
+    }, [])
+
+    console.log(Math.min(...paths.map(path => path.length)) - 1)
 }
 
 main()
