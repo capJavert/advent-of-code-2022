@@ -56,17 +56,7 @@ const main = async () => {
         return elevation === 'a'.charCodeAt()
     })
 
-    const paths = starts.reduce((acc, item) => {
-        try {
-            const path = solve_day_12([map, item, end.join('-')])
-
-            acc.push(path)
-        } catch (error) {
-            // path can not be found from all 'a' positions
-        }
-
-        return acc
-    }, [])
+    const paths = solve_day_12([map, starts, end.join('-')])
 
     console.log(Math.min(...paths.map(path => path.length)) - 1)
 }
