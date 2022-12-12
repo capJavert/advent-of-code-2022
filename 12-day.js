@@ -58,7 +58,7 @@ const main = async () => {
 
     const paths = starts.reduce((acc, item) => {
         try {
-            const path = solve_day_12([map, item, end.join('-')])
+            const path = solve_day_12(JSON.stringify([map, item, end.join('-')]))
 
             acc.push(path)
         } catch (error) {

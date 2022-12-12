@@ -3,9 +3,9 @@ use std::collections::{HashMap, VecDeque};
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
-pub fn solve_day_12(input: JsValue) -> JsValue {
+pub fn solve_day_12(input: &str) -> JsValue {
     let (map, start, end): (HashMap<String, Vec<String>>, String, String) =
-        serde_wasm_bindgen::from_value(input).unwrap();
+        serde_json::from_str(input).unwrap();
 
     let mut frontier = VecDeque::new();
     frontier.push_back(&start);
