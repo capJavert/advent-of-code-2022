@@ -1,7 +1,9 @@
-use serde::Deserialize;
+use std::cmp::Ordering;
+
+use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::*;
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Serialize)]
 #[serde(untagged)]
 enum Pair {
     Multi(Vec<Pair>),
@@ -72,17 +74,14 @@ fn compare(a: &Pair, b: &Pair) -> isize {
 }
 
 #[wasm_bindgen]
-pub fn solve_day_13(input: JsValue) -> Vec<usize> {
-    let pairs: Vec<(Pair, Pair)> = serde_wasm_bindgen::from_value(input).unwrap();
-    let mut sorted_pairs = vec![];
+pub fn solve_day_13(input: JsValue) -> JsValue {
+    let mut pairs: Vec<Pair> = serde_wasm_bindgen::from_value(input).unwrap();
+    pairs.sort_by(|a, b| match compare(&a, &b) {
+        1 => Ordering::Less,
+        -1 => Ordering::Greater,
+        0 => Ordering::Equal,
+        _ => panic!("Uknown sort order"),
+    });
 
-    for (index, pair) in pairs.into_iter().enumerate() {
-        let is_sorted = compare(&pair.0, &pair.1);
-
-        if is_sorted == 1 {
-            sorted_pairs.push(index + 1)
-        }
-    }
-
-    sorted_pairs
+    serde_wasm_bindgen::to_value(&pairs).unwrap()
 }
