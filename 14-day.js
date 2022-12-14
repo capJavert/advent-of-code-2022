@@ -50,19 +50,11 @@ const main = async () => {
         })
     })
 
-    // eslint-disable-next-line no-unused-vars
-    const printGrid = () => {
-        for (let y = 0; y <= maxY; y += 1) {
-            const line = []
+    maxX *= 2
+    maxY += 2
 
-            for (let x = 494; x <= maxX; x += 1) {
-                const item = grid[`${x}-${y}`]
-
-                line.push(item || '.')
-            }
-
-            console.log(line.join(''))
-        }
+    for (let i = 0; i <= maxX; i += 1) {
+        grid[`${i}-${maxY}`] = '#'
     }
 
     let step = 0
@@ -92,11 +84,9 @@ const main = async () => {
                 grid[moves.right.join('-')] = 'o'
                 sand = moves.right
             } else {
-                break
-            }
-
-            if (sand[1] > maxY) {
-                didSandVoid = true
+                if (sand.join('-') === [500, 0].join('-')) {
+                    didSandVoid = true
+                }
 
                 break
             }
@@ -105,7 +95,7 @@ const main = async () => {
         step += 1
     }
 
-    console.log(step - 1)
+    console.log(step)
 }
 
 main()
